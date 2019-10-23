@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <my-component1></my-component1>
+        <my-component2></my-component2>
+        <child-component v-bind:propsdata="message"></child-component>
+        <child-component2 v-on:show-log="printText"></child-component2>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('child-component', {
+            props: ['propsdata'],
+            template: '<p>{{ propsdata }}</p>',
+
+        });
+
+        Vue.component('child-component2', {
+            template: '<button v-on:click="showLog">show</button>',
+            methods: {
+                showLog() {
+                    this.$emit('show-log');
+                }
+            }
+        });
+
+        const cmp1 = {
+            template: '<div>첫번째 지역 컴포넌트 : {{ cmp1Data }}</div>',
+            data() {
+                return {
+                    cmp1Data: 100
+                }
+            }
+        };
+
+        const cmp2 = {
+            template: '<div>두번째 지역 컴포넌트 : {{ cmp2Data }}</div>',
+            data() {
+                return {
+                    cmp2Data: cmp1.data.cmp1Data
+                }
+            }
+        };
+
+        new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue! passed from Parent Component'
+            },
+            components: {
+                'my-component1': cmp1,
+                'my-component2': cmp2
+            },
+            methods: {
+                printText() {
+                    console.log('received an event');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
