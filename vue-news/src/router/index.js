@@ -6,7 +6,7 @@ import JobsView from '../views/JobsView.vue';
 
 Vue.use(VueRouter);
 
-const router = new VueRouter({
+export const router = new VueRouter({
     routes: [
         {
             // path : url 주소
